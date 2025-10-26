@@ -56,7 +56,7 @@
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased min-h-screen flex flex-col">
 
     <header class="bg-white dark:bg-gray-800 shadow-sm p-4 sticky top-0 z-20 flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
-        <h1 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+        <h1 id="header-title" class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
             <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             List of AI generated images
         </h1>
@@ -137,6 +137,10 @@
                         throw new Error("No image files found in the repository.");
                     }
 
+                    const totalSize = imageFiles.reduce((sum, file) => sum + (file.size || 0), 0);
+                    const formattedSize = formatSize(totalSize);
+                    document.getElementById('header-title').innerHTML += ` (${imageFiles.length} images, ${formattedSize})`;
+
                     shuffleArray(imageFiles);
 
                     imageFiles.forEach(file => {
@@ -207,6 +211,13 @@
 
             fetchImages();
         });
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+            return (bytes / (1024 * 1024 * 1024)).toFixed(1) + ' GB';
+        }
     </script>
 
 </body>
