@@ -99,7 +99,7 @@
 
                     const folderPromises = fixedFolders.map(async folder => {
                         try {
-                            const res = await fetch(`https://api.github.com/repos/ItzMartDev/AI-Image-Gallery/contents/${folder}?ref=main`);
+                            const res = await fetch(`https://api.github.com/repos/ItzMartDev/ai-images/contents/${folder}?ref=main`);
                             if (!res.ok) throw new Error();
                             const data = await res.json();
                             const imageFiles = data.filter(f => f.type === 'file' && (f.name.endsWith('.jpg') || f.name.endsWith('.png') || f.name.endsWith('.jpeg') || f.name.endsWith('.gif') || f.name.endsWith('.webp')));

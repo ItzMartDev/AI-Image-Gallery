@@ -93,8 +93,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const imagesEndpoint = "https://api.github.com/repos/ItzMartDev/AI-Image-Gallery/contents/images2?ref=main";
-            const rawImageBase = "https://raw.githubusercontent.com/ItzMartDev/AI-Image-Gallery/main/images2/";
+            const imagesEndpoint = "https://api.github.com/repos/ItzMartDev/ai-images/contents/images2?ref=main";
+            const rawImageBase = "https://raw.githubusercontent.com/ItzMartDev/ai-images/main/images2/";
 
             const galleryGrid = document.getElementById('gallery-grid');
             const loader = document.getElementById('loader');
@@ -119,7 +119,11 @@
                     const response = await fetch(imagesEndpoint);
 
                     if (!response.ok) {
-                        throw new Error(`Error from GitHub API: ${response.status} ${response.statusText}`);
+                        if (response.status === 404) {
+                            throw new Error("No images found in this folder. The folder may not exist or be empty.");
+                        } else {
+                            throw new Error(`Error from GitHub API: ${response.status} ${response.statusText}`);
+                        }
                     }
 
                     const data = await response.json();
